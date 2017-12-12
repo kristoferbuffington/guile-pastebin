@@ -16,7 +16,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNUPaste.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (pastebin template)
+(define-module (gnupaste template)
   #:use-module (htmlprag)
   #:use-module (twitter bootstrap)
   #:export (template
@@ -26,7 +26,7 @@
   `(link
     (@ (rel "stylesheet")
        (href
-	"/static/css/pastebin.css"))))
+	"/static/css/gnupaste.css"))))
 
 (define paste-form
   `(form (@ (class "container-fluid")
@@ -63,7 +63,7 @@
 	       (span (@ (class "navbar-toggler-icon"))))
        (a (@ (class "navbar-brand")
 	     (href "/"))
-	  "paste.freshbakedyams.com")
+	  "GNUPaste")
        (div (@ (class "collapse navbar-collapse")
 	       (id "navbarSupportedContent"))
 	    (ul (@ (class "navbar-nav mr-auto"))
@@ -76,7 +76,7 @@
   `(html
     (@ (lang "en"))
     (head
-     (title "paste.freshbakedyams.com")
+     (title "GNUPaste")
      (meta (@ (charset "utf-8")))
      (meta
       (@ (name "viewport")

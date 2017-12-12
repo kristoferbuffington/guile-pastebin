@@ -23,7 +23,7 @@
   #:use-module (htmlprag)
   #:use-module (ice-9 binary-ports)
   #:use-module (srfi srfi-1)
-  #:use-module (pastebin template)
+  #:use-module (gnupaste template)
   #:export (render-html
 	    render-static-asset
 	    not-found
