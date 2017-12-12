@@ -1,1 +1,3 @@
-A simple GNU Guile project template.
+GNUPaste
+
+GNUPaste depends on guile-2.2, wiredtiger, and guile-wiredtiger bindings.
