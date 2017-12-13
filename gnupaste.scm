@@ -126,4 +126,4 @@ example: \"/foo/bar\" yields '(\"foo\" \"bar\")."
 
   (with-env paste-env
     (format #t "Server Started: http://localhost:8080/\n\n")
-    (run-server (make-request-handler))))
+    (run-server (make-request-handler) #:addr INADDR_ANY)))
