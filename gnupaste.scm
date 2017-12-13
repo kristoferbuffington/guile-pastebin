@@ -24,11 +24,16 @@
   #:use-module ((system repl server) #:prefix repl:)
   #:use-module (web request)
   #:use-module (web response)
-  #:use-module (web server)
+  #:use-module (fibers web server)
   #:use-module (web uri)
   #:use-module (gnupaste render)
   #:use-module (gnupaste template)
   #:use-module (gnupaste paste)
+  #:use-module (wiredtiger wiredtiger)
+  #:use-module (wiredtiger extra)
+  #:use-module (wiredtiger feature-space)
+  #:use-module (wiredtiger grf3)
+
 
   #:export (run-gnupaste))
 
@@ -118,5 +123,7 @@ example: \"/foo/bar\" yields '(\"foo\" \"bar\")."
 (define* (run-gnupaste #:key (repl? #f))
   (when repl?
     (repl:spawn-server (repl:make-tcp-server-socket)))
-  (format #t "Server Started: http://localhost:8080/\n\n")
-  (run-server (make-request-handler)))
+
+  (with-env paste-env
+    (format #t "Server Started: http://localhost:8080/\n\n")
+    (run-server (make-request-handler))))

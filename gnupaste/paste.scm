@@ -23,16 +23,20 @@
   #:use-module (wiredtiger grf3)
   #:use-module (srfi srfi-9)
   #:use-module (ice-9 rdelim)
-
+  #:use-module (microkanren)
+  #:use-module (gnupaste config)
+  
   :export (new-paste
 	   get-paste
 	   make-paste
 	   paste-name
-	   paste-code))
+	   paste-code
+	   paste-env))
 
-(define (env) (env-open* (string-append (getcwd) "/wt")
-			  (list *feature-space*)
-			  "create"))
+(define paste-env
+  (env-open* (string-append (getcwd) "/wt")
+	     (list *feature-space*)
+	     "create"))
 
 (define-record-type <paste>
   (make-paste name code)
@@ -48,15 +52,19 @@
 
 (define (new-paste paste)
   (if (paste? paste)
-      (with-env (env)
-		(fs:add! `((kind . paste)
-			   (paste/name . ,(paste-name paste))
-			   (paste/code . ,(paste-code paste)))))
-      #f))
+      (fs:add! `((kind . paste)
+		 (paste/name . ,(paste-name paste))
+		 (paste/code . ,(paste-code paste))))
+	#f))
 
 (define (get-paste uid)
-  (let* ((data (with-env (env)
-			(fs:ref* uid)))
+  (let* ((data (fs:ref* uid))
 	 (name (cdar data))
 	 (code (cdar (cdr data))))
     (make-paste name code)))
+
+(define (list-pastes-query)
+  (reverse (sort! (run* (paste/uid)
+		    (fresh (uid?)
+		      (fs:queryo uid? `kind `paste)))
+		  (lambda (a b) (< (list-ref a 1) (list-ref b 1))))))

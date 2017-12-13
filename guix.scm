@@ -26,13 +26,28 @@
 	    (guix build-system gnu)
 	    (guix utils)
 	    (guix packages)
+	    (guix git-download)
 	    (guix gexp))
 
 (package
  (name "gnupaste")
  (version "0.0")
- (source (local-file "." #:recursive? #t))
+ (source (origin
+	  (method git-fetch)
+	  (uri (git-reference
+		(url "https://github.com/kristoferbuffington/gnupaste.git")
+		(commit "05040eb8064e32a45ec94b70dd3c78d22b6761eb")))
+	  (sha256
+	   (base32
+	    "1irwz6plhbkaly3x6hbjyz3yxjbk58qw9nqnbg045sf04d0j9an5"))))
  (build-system gnu-build-system)
+ (arguments
+     '(#:make-flags '("GUILE_AUTO_COMPILE=0")
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'bootstrap
+           (lambda _
+             (zero? (system* "sh" "bootstrap")))))))
  (inputs `(("guile" ,guile-2.2)
 	   ("guile-lib" ,guile-lib)
 	   ;("guile-json" ,guile-json)
@@ -43,5 +58,5 @@
 		  ("automake" ,automake)))
  (synopsis "Pastebin web app written in Guile")
  (description "Pastebin web app written in Guile")
- (home-page "https://paste.freshbakedyams.com")
+ (home-page "https://github.com/kristoferbuffington/gnupaste")
  (license (list license:gpl3+ license:lgpl3+)))

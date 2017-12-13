@@ -1,3 +1,17 @@
 GNUPaste
 
-GNUPaste depends on guile-2.2, wiredtiger, and guile-wiredtiger bindings.
+GNUPaste depends on guile-2.2, guile-wiredtiger bindings and fibers.
+
+To tinker with it start with
+
+./bootstrap
+
+followed by
+
+./configure && make
+
+Then you can run the program with
+
+./pre-inst-env ./gnupaste-server
+
+There is an option --repl that will spawn a repl server for convenience
