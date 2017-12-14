@@ -72,6 +72,11 @@
 			  (href "/paste/new"))
 		       "New"))))))
 
+(define footer
+  `(div (@ (class "container-fluid")
+	   (id "footer"))
+	"GNUPaste - " (a (@ (href "https://github.com/kristoferbuffington/gnupaste/"))
+			 "source code")))
 (define (template content)
   `(html
     (@ (lang "en"))
@@ -88,6 +93,7 @@
     (body (@ (data-spy "scroll"))
 	  ,navigation
 	  ,content
+	  ,footer
 	  ,script-bootstrap-jquery
 	  ,script-tether
 	  ,script-bootstrap

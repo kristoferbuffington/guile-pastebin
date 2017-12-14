@@ -31,7 +31,7 @@
 
 (define (redirect path)
   (let ((uri (build-uri 'http
-                        #:host "localhost"
+			#:host "localhost"
                         #:port 8080
                         #:path (string-append
                                 "/" (encode-and-join-uri-path path)))))

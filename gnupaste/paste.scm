@@ -38,6 +38,11 @@
 	     (list *feature-space*)
 	     "create"))
 
+(define (temp-env)
+  (env-open* (string-append (getcwd) "/wt")
+	     (list *feature-space*)
+	     "create"))
+
 (define-record-type <paste>
   (make-paste name code)
   paste?
