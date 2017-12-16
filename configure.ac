@@ -1,5 +1,5 @@
-AC_INIT([gnupaste], [0.1])
-AC_CONFIG_SRCDIR([gnupaste.scm])
+AC_INIT([pastebin], [0.1])
+AC_CONFIG_SRCDIR([pastebin.scm])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
@@ -18,8 +18,8 @@ AC_SUBST([sysconfdir])
 AC_SUBST([bindir])
 
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([gnupaste/config.scm])
-AC_CONFIG_FILES([scripts/gnupaste], [chmod +x scripts/gnupaste])
+AC_CONFIG_FILES([pastebin/config.scm])
+AC_CONFIG_FILES([scripts/pastebin], [chmod +x scripts/pastebin])
 AC_CONFIG_FILES([pre-inst-env], [chmod +x pre-inst-env])
 
 AC_OUTPUT

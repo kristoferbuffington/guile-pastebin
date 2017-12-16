@@ -1,22 +1,22 @@
 bin_SCRIPTS =      \
-  scripts/gnupaste
+  scripts/pastebin
 
 include guile.am
 
 SOURCES =               \
-  gnupaste/config.scm   \
-  gnupaste/render.scm   \
-  gnupaste/template.scm \
-  gnupaste/paste.scm    \
+  pastebin/config.scm   \
+  pastebin/render.scm   \
+  pastebin/template.scm \
+  pastebin/paste.scm    \
   twitter/bootstrap.scm \
-  gnupaste.scm
+  pastebin.scm
 
 EXTRA_DIST =      \
   README          \
   bootstrap       \
-  bin/gnupaste.in \
+  bin/pastebin.in \
   pre-inst-env.in
 
 AM_CFLAGS = -DLOCAL_STATE_DIR=\"${localstatedir}\"
-gnupastedatadir = $(localstatedir)/gnupaste
+gnupastedatadir = $(localstatedir)/pastebin
 gnupastedata_DATA = wt
