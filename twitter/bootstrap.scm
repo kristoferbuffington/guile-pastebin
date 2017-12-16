@@ -1,20 +1,20 @@
-;;; GNUPaste --- A Pastebin service for GNU
+;;; Pastebin --- A Pastebin service for GNU
 ;;; Copyright © 2017 Kristofer Buffington <kristoferbuffington@gmail.com>
 ;;;
-;;; This file is part of GNUPaste.
+;;; This file is part of Pastebin.
 ;;;
-;;; GNUPaste is free software; you can redistribute it and/or modify it
+;;; Pastebin is free software; you can redistribute it and/or modify it
 ;;; under the terms of the GNU General Public License as published by
 ;;; the Free Software Foundation; either version 3 of the License, or (at
 ;;; your option) any later version.
 ;;;
-;;; GNUPaste is distributed in the hope that it will be useful, but
+;;; Pastebin is distributed in the hope that it will be useful, but
 ;;; WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;;; GNU General Public License for more details.
 ;;;
 ;;; You should have received a copy of the GNU General Public License
-;;; along with GNUPaste.  If not, see <http://www.gnu.org/licenses/>.
+;;; along with Pastebin.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (twitter bootstrap)
   #:use-module (htmlprag)
