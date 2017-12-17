@@ -50,6 +50,7 @@
              (zero? (system* "sh" "bootstrap")))))))
  (inputs `(("guile" ,guile-2.2)
 	   ("guile-lib" ,guile-lib)
+	   ("guile-syntax-highlight" ,guile-syntax-highlight)
 	   ("guile-wiredtiger" ,guile-wiredtiger)
 	   ("guile-fibers" ,guile-fibers)))
  (native-inputs `(("pkgconfig" ,pkg-config)
