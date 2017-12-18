@@ -3,12 +3,14 @@ bin_SCRIPTS =      \
 
 include guile.am
 
-SOURCES =               \
-  pastebin/config.scm   \
-  pastebin/render.scm   \
-  pastebin/template.scm \
-  pastebin/paste.scm    \
-  twitter/bootstrap.scm \
+SOURCES =                 \
+  pastebin/config.scm     \
+  pastebin/controller.scm \
+  pastebin/router.scm     \
+  pastebin/render.scm     \
+  pastebin/template.scm   \
+  pastebin/paste.scm      \
+  twitter/bootstrap.scm   \
   pastebin.scm
 
 EXTRA_DIST =      \
@@ -18,5 +20,5 @@ EXTRA_DIST =      \
   pre-inst-env.in
 
 AM_CFLAGS = -DLOCAL_STATE_DIR=\"${localstatedir}\"
-gnupastedatadir = $(localstatedir)/pastebin
-gnupastedata_DATA = wt
+pastebindatadir = $(localstatedir)/pastebin
+pastebindata_DATA = wt

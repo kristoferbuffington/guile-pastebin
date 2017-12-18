@@ -1,6 +1,6 @@
-GNUPaste
+Pastebin
 
-GNUPaste depends on guile-2.2, guile-wiredtiger bindings and fibers.
+Pastebin depends on guile-2.2, guile-wiredtiger bindings.
 
 To tinker with it start with
 
@@ -12,6 +12,6 @@ followed by
 
 Then you can run the program with
 
-./pre-inst-env ./gnupaste-server
+./pre-inst-env ./pastebin
 
 There is an option --repl that will spawn a repl server for convenience
