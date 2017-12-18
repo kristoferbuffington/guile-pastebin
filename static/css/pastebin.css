@@ -1,2 +1,26 @@
 #new-paste {
 }
+
+/* from https://git.dthompson.us/blog.git/blob/refs/heads/haunt-migration:/css/dthompson.css */
+/* Syntax Highlighting */
+
+.syntax-special, .syntax-element {
+    color: #8ac6f2;
+    font-weight: bold;
+}
+
+.syntax-string {
+    color: #95e454;
+}
+
+.syntax-keyword, .syntax-attribute {
+    color: #e5786d;
+}
+
+.syntax-comment {
+    color: #999;
+}
+
+.syntax-open, .syntax-close {
+    color: #999;
+}
