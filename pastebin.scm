@@ -29,6 +29,8 @@
   #:use-module (pastebin render)
   #:use-module (pastebin template)
   #:use-module (pastebin paste)
+  #:use-module (syntax-highlight)
+  #:use-module (syntax-highlight scheme)
   #:use-module (wiredtiger wiredtiger)
   #:use-module (wiredtiger extra)
   #:use-module (wiredtiger feature-space)
@@ -100,7 +102,9 @@ example: \"/foo/bar\" yields '(\"foo\" \"bar\")."
 	   (render-html (template `(div (@ (id "content")
 					   (class "container-fluid"))
 					(h1 ,(paste-name paste))
-					(pre (code ,(paste-code paste))))))))
+          ;; TODO: Do not assume lex-scheme
+					(pre (code ,(highlights->sxml
+                       (highlight lex-scheme (paste-code paste))))))))))
 	(("static" path ...)
 	 (render-static-asset request))
 	(("favicon.ico")
