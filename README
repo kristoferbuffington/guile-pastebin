@@ -12,6 +12,6 @@ followed by
 
 Then you can run the program with
 
-./pre-inst-env ./pastebin
+./pre-inst-env ./scripts/pastebin
 
 There is an option --repl that will spawn a repl server for convenience
