@@ -11,6 +11,7 @@ SOURCES =                 \
   pastebin/template.scm   \
   pastebin/paste.scm      \
   twitter/bootstrap.scm   \
+  web/util.scm            \
   pastebin.scm
 
 EXTRA_DIST =      \

@@ -1,5 +1,6 @@
 ;;; Pastebin --- A Pastebin service for GNU
 ;;; Copyright © 2017 Kristofer Buffington <kristoferbuffington@gmail.com>
+;;; Copyright © 2017 Jelle Licht <wordempire@gmail.com>
 ;;;
 ;;; This file is part of Pastebin.
 ;;;
@@ -31,9 +32,18 @@
 	    controller-new-paste))
 
 (define (controller-index)
-  (render-html (template `(div (@ (id "content")
-				  (class "container-fluid"))
-			       (div "This pastebin is under active development.")))))
+  (render-html
+   (template
+    `(div (@ (id "content")
+	     (class "container-fluid"))
+	  (div "This pastebin is under active development. It currently only highlights scheme code.")))))
+
+(define (line-numbers string)
+  (string-join
+   (map (lambda (x)
+	  (number->string (+ 1 x)))
+	(iota (length (string-split string #\newline))))
+   "\n"))
 
 (define (controller-get-paste uid)
   (let ((paste (get-paste uid)))
@@ -41,8 +51,11 @@
 				    (class "container-fluid"))
 				 (h1 ,(paste-name paste))
 				 ;; TODO: Do not assume lex-scheme
-				 (pre (code ,(highlights->sxml
-					      (highlight lex-scheme (paste-code paste))))))))))
+				 (pre (@ (class "row"))
+				  (div (@ (class "col-1"))
+					,(line-numbers (paste-code paste)))
+				  (code (@ (class "col-11 col-md-auto")),(highlights->sxml
+					    (highlight lex-scheme (paste-code paste))))))))))
 
 (define (controller-new-paste-form)
   (render-html (template paste-form)))

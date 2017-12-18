@@ -48,7 +48,7 @@
 	    (if html
 		(begin
 		  (display "<!DOCTYPE html>\n" port)
-		  (write-shtml-as-html html port))))))
+		  (write-sxml-html html port))))))
 
 (define (directory? filename)
   (string=? filename (dirname filename)))

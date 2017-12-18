@@ -23,11 +23,11 @@
   #:use-module (microkanren)
   #:use-module (pastebin config)
   #:export (new-paste
-	   get-paste
-	   make-paste
-	   paste-name
-	   paste-code
-	   paste-env))
+	    get-paste
+	    make-paste
+	    paste-name
+	    paste-code
+	    paste-env))
 
 (define-record-type <paste>
   (make-paste name code)

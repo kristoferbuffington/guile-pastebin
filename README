@@ -1,6 +1,6 @@
 Pastebin
 
-Pastebin depends on guile-2.2, guile-wiredtiger bindings.
+Pastebin depends on guile-2.2, guile-wiredtiger bindings and guile-syntax-highlighter.
 
 To tinker with it start with
 

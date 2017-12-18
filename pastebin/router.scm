@@ -1,5 +1,6 @@
 ;;; Pastebin --- A Pastebin service for GNU
 ;;; Copyright © 2017 Kristofer Buffington <kristoferbuffington@gmail.com>
+;;; Copyright © 2017 Jelle Licht <wordempire@gmail.com>
 ;;;
 ;;; This file is part of Pastebin.
 ;;;
