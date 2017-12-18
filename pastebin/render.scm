@@ -29,10 +29,10 @@
 	    not-found
 	    redirect))
 
-(define (redirect path)
+(define (redirect request path)
   (let ((uri (build-uri 'http
-			#:host "localhost"
-                        #:port 8080
+			#:host (uri-host (request-uri request))
+                        #:port (uri-port (request-uri request))
                         #:path (string-append
                                 "/" (encode-and-join-uri-path path)))))
     (values (build-response

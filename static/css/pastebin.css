@@ -4,6 +4,11 @@
 /* from https://git.dthompson.us/blog.git/blob/refs/heads/haunt-migration:/css/dthompson.css */
 /* Syntax Highlighting */
 
+pre {
+    background-color: #224034;
+    color: #deeed6;
+}
+
 .syntax-special, .syntax-element {
     color: #8ac6f2;
     font-weight: bold;

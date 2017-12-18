@@ -50,10 +50,10 @@
 (define (controller-new-paste request body)
   (match (request-form-data request body)
     ((("name" . name) ("code" . code))
-     (redirect
-      (list "paste"
-	    (new-paste
-	     (make-paste name code)))))
+     (redirect request
+	       (list "paste"
+		     (new-paste
+		      (make-paste name code)))))
     (_
      ;; TODO: Use correct HTTP status code (415?)
      (not-found request #:phrase "incorrect form data"))))
