@@ -115,14 +115,16 @@ example: \"/foo/bar\" yields '(\"foo\" \"bar\")."
       (match (request-path-components request)
         (("paste" "new")
          (if (bytevector? body)
-             (let* ((data (request-form-data request body))
-                    (name (cdr (car data)))
-                    (code (cdr (car (cdr data))))
-                    (uid (new-paste (make-paste name code))))
-               (redirect (list "paste" uid)))
-             (render-html (template (not-found request #:phrase "incorrect form data")))))
-        (_
-         (not-found request)))))))
+             (match (request-form-data request body)
+               ((("name" . name) ("code" . code))
+                (redirect
+                 (list "paste"
+                       (new-paste
+                        (make-paste name code)))))
+               (_
+                ;; TODO: Use correct HTTP status code (415?)
+                (not-found request #:phrase "incorrect form data")))
+             (not-found request #:phrase "incorrect form data"))))))))
 
 (define* (run-pastebin #:key (repl? #f))
   (when repl?
