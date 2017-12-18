@@ -39,11 +39,13 @@
 	  (div "This pastebin is under active development. It currently only highlights scheme code.")))))
 
 (define (line-numbers string)
-  (string-join
-   (map (lambda (x)
-	  (number->string (+ 1 x)))
-	(iota (length (string-split string #\newline))))
-   "\n"))
+  (define (line-n x) (string-append "line-" (number->string (+ x 1))))
+  `(div (@ (class "col-1"))
+	,(map (lambda (x)
+		`(a (@ (href ,(string-append "#" (line-n x)))
+		       (id , (line-n x)))
+		    ,(string-append (number->string (+ 1 x)) "\n")))
+	      (iota (length (string-split string #\newline))))))
 
 (define (controller-get-paste uid)
   (let ((paste (get-paste uid)))
