@@ -17,119 +17,23 @@
 ;;; along with Pastebin.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (pastebin)
-  #:use-module (ice-9 match)
-  #:use-module (ice-9 binary-ports)
-  #:use-module (ice-9 rdelim)
-  #:use-module (rnrs bytevectors)
   #:use-module ((system repl server) #:prefix repl:)
-  #:use-module (web request)
-  #:use-module (web response)
   #:use-module (fibers web server)
-  #:use-module (web uri)
-  #:use-module (pastebin render)
-  #:use-module (pastebin template)
-  #:use-module (pastebin paste)
-  #:use-module (syntax-highlight)
-  #:use-module (syntax-highlight scheme)
-  #:use-module (wiredtiger wiredtiger)
   #:use-module (wiredtiger extra)
   #:use-module (wiredtiger feature-space)
-  #:use-module (wiredtiger grf3)
-
+  #:use-module (pastebin router)
 
   #:export (run-pastebin))
 
-(define (decode-string bv charset)
-  (if (string-ci=? charset "utf-8")
-      (utf8->string bv)
-      (let ((p (open-bytevector-input-port bv)))
-        (set-port-encoding! p charset)
-        (read-delimited "" p))))
-
-(define* (parse-www-form-urlencoded str #:optional (charset "utf-8"))
-  (map (lambda (piece)
-         (let ((equals (string-index piece #\=)))
-           (if equals
-               (cons (uri-decode (substring piece 0 equals) #:encoding charset)
-                     (uri-decode (substring piece (1+ equals)) #:encoding charset))
-               (cons (uri-decode piece #:encoding charset) ""))))
-       (string-split str #\&)))
-
-(define (request-form-data request body)
-  (if (bytevector? body)
-      ;; Since valid application/x-www-form-urlencoded content only has
-      ;; ascii characters, treat the incoming data as ascii (well,
-      ;; latin-1), then use the charset when percent-decoding the
-      ;; content.
-      (request-form-data request (decode-string body "iso-8859-1"))
-      (if (or (not body)
-              (string-null? body))
-          '()
-          (let* ((content-type (request-content-type request))
-                 (charset (or (assoc-ref (cdr content-type) "charset") "utf-8")))
-            (cond
-             ((equal? (car content-type) 'application/x-www-form-urlencoded)
-              (parse-www-form-urlencoded body charset)))))))
-
-(define (get-request? request)
-  (eq? (request-method request) 'GET))
-
-(define (post-request? request)
-  (eq? (request-method request) 'POST))
-
-(define (request-path-components request)
-  "Split the URI path of REQUEST into a list of component strings.  For
-example: \"/foo/bar\" yields '(\"foo\" \"bar\")."
-  (split-and-decode-uri-path (uri-path (request-uri request))))
-
-(define (make-request-handler)
-  (lambda (request body)
-    (format #t "~a ~a~%"
-            (request-method request)
-            (uri-path (request-uri request)))
-
-    (cond
-     ((get-request? request)
-      (match (request-path-components request)
-        ((or ("index.html") '())
-         (render-html (template `(div (@ (id "content")
-                                         (class "container-fluid"))
-                                      (h1 "The index awww yeah")))))
-        (("paste" "new")
-         (render-html (template paste-form)))
-        (("paste" uid)
-         (let ((paste (get-paste uid)))
-           (render-html (template `(div (@ (id "content")
-                                           (class "container-fluid"))
-                                        (h1 ,(paste-name paste))
-                                        ;; TODO: Do not assume lex-scheme
-                                        (pre (code ,(highlights->sxml
-                                                     (highlight lex-scheme (paste-code paste))))))))))
-        (("static" path ...)
-         (render-static-asset request))
-        (("favicon.ico")
-         (render-static-asset request))
-        (_
-         (not-found request))))
-     ((post-request? request)
-      (match (request-path-components request)
-        (("paste" "new")
-         (if (bytevector? body)
-             (match (request-form-data request body)
-               ((("name" . name) ("code" . code))
-                (redirect
-                 (list "paste"
-                       (new-paste
-                        (make-paste name code)))))
-               (_
-                ;; TODO: Use correct HTTP status code (415?)
-                (not-found request #:phrase "incorrect form data")))
-             (not-found request #:phrase "incorrect form data"))))))))
+(define %wt-env
+  (env-open* (string-append (getcwd) "/wt")
+	     (list *feature-space*)
+	     "create"))
 
 (define* (run-pastebin #:key (repl? #f))
   (when repl?
     (repl:spawn-server (repl:make-tcp-server-socket)))
 
-  (with-env paste-env
+  (with-env %wt-env
             (format #t "Server Started: http://localhost:8080/\n\n")
-            (run-server (make-request-handler))))
+            (run-server (route))))

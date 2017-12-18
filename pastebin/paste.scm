@@ -17,43 +17,23 @@
 ;;; along with Pastebin.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (pastebin paste)
-  #:use-module (wiredtiger wiredtiger)
-  #:use-module (wiredtiger extra)
   #:use-module (wiredtiger feature-space)
-  #:use-module (wiredtiger grf3)
   #:use-module (srfi srfi-9)
   #:use-module (ice-9 rdelim)
   #:use-module (microkanren)
   #:use-module (pastebin config)
-  
-  :export (new-paste
+  #:export (new-paste
 	   get-paste
 	   make-paste
 	   paste-name
 	   paste-code
 	   paste-env))
 
-(define paste-env
-  (env-open* (string-append (getcwd) "/wt")
-	     (list *feature-space*)
-	     "create"))
-
-(define (temp-env)
-  (env-open* (string-append (getcwd) "/wt")
-	     (list *feature-space*)
-	     "create"))
-
 (define-record-type <paste>
   (make-paste name code)
   paste?
   (name paste-name)
   (code paste-code))
-
-(define (uuid)
-    (with-input-from-file
-	"/proc/sys/kernel/random/uuid"
-      (lambda ()
-	(read-line (current-input-port)))))
 
 (define (new-paste paste)
   (if (paste? paste)
