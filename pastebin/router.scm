@@ -23,6 +23,8 @@
   #:use-module (web request)
   #:use-module (web uri)
 
+  #:use-module (wiredtiger extra)
+
   #:use-module (pastebin controller)
   #:use-module (pastebin render)
 
@@ -30,28 +32,29 @@
 
 (define (route)
   (lambda (request body)
-    (format #t "~a ~a~%"
-            (request-method request)
-            (uri-path (request-uri request)))
+    (with-context*
+        (format #t "~a ~a~%"
+                (request-method request)
+                (uri-path (request-uri request)))
 
-    (cond
-     ((get-request? request)
-      (match (request-path-components request)
-	((or ("index.html") '())
-	 (controller-index))
-	(("paste" "new")
-	 (controller-new-paste-form))
-	(("paste" uid)
-	 (controller-get-paste uid))
-	(("static" path ...)
-	 (render-static-asset request))
-	(("favicon.ico")
-	 (render-static-asset request))
-	(_
-	 (not-found request))))
-     ((post-request? request)
-      (match (request-path-components request)
-	(("paste" "new")
-	 (controller-new-paste request body))
-	(_
-	 (not-found request #:phrase "incorrect form data")))))))
+      (cond
+       ((get-request? request)
+        (match (request-path-components request)
+          ((or ("index.html") '())
+           (controller-index))
+          (("paste" "new")
+           (controller-new-paste-form))
+          (("paste" uid)
+           (controller-get-paste uid))
+          (("static" path ...)
+           (render-static-asset request))
+          (("favicon.ico")
+           (render-static-asset request))
+          (_
+           (not-found request))))
+       ((post-request? request)
+        (match (request-path-components request)
+          (("paste" "new")
+           (controller-new-paste request body))
+          (_
+           (not-found request #:phrase "incorrect form data"))))))))
