@@ -18,7 +18,7 @@
 
 (define-module (pastebin)
   #:use-module ((system repl server) #:prefix repl:)
-  #:use-module (web server)
+  #:use-module (fibers web server)
   #:use-module (wiredtiger extra)
   #:use-module (wiredtiger feature-space)
   #:use-module (pastebin router)
